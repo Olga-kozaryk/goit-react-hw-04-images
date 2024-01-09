@@ -8,6 +8,7 @@ import { Button } from "components/Button/Button";
 import { Modal } from "components/Modal/Modal";
 
 export const App =() => {
+  const [inputValue, setInputValue] = useState('')
   const [search, setSearch] = useState('');
   const [images, setImages] = useState([]);
   const [page, setPage] = useState(0);
@@ -20,7 +21,22 @@ export const App =() => {
   });
   const [empty, setEmpty] = useState(false);
 
-  const handleSubmit = search => setSearch(search);
+  const handleSubmit = e => {
+    e.preventDefault(); 
+    if (inputValue === '') {
+      alert('Please enter your query');
+      return;
+    }
+    if (search === inputValue) return; 
+    setImages([]);
+    setSearch(inputValue);
+    setPage(1);
+  };
+
+  const handleChange = e => {
+    setInputValue(e.target.value);
+  };
+
   const clickLoad = () => {
     setPage(prev => prev + 1);
   };
@@ -58,8 +74,14 @@ export const App =() => {
 
     return (
       <Container>
-        <Searchbar handleSubmit={handleSubmit}/>
-        <ImageGallery onImageClick = {openModal} images={images} />
+        <Searchbar 
+        onSubmit={handleSubmit}
+        onChange={handleChange}
+        inputValue={inputValue}/>
+
+        <ImageGallery 
+        onImageClick = {openModal} 
+        images={images} />
 
         {empty && 
           <h2 style={{ textAlign: 'center' }}>
@@ -75,10 +97,12 @@ export const App =() => {
           }
              
         {page < lastPage && <Button clickLoad={clickLoad} />}
+
         {modal.showModal && 
-          <Modal closeModal={toggleModal}>
-            <img src={modal.largeImageURL} alt={modal.alt} />
-          </Modal>
+          <Modal 
+          closeModal={toggleModal} 
+          largeImageURL={modal.largeImageURL} 
+          />
         }
       </Container>
     );

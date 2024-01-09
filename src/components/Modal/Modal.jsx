@@ -2,7 +2,7 @@ import { Overlay } from "./Overlay.styled";
 import { ModalStyled } from "./Modal.styled";
 import { useEffect } from "react";
 
-export const Modal = (children, closeModal ) => {
+export const Modal = ({largeImageURL, closeModal} ) => {
 useEffect(() => {
   const handleKeyDown = e => {
     if (e.code === 'Escape'){
@@ -17,8 +17,9 @@ useEffect(() => {
 
 
     return (
-    <Overlay onClick={closeModal }>
-      <ModalStyled>{children}    
+    <Overlay onClick={closeModal}>
+      <ModalStyled>
+      <img src={largeImageURL} alt=""/>
       </ModalStyled>
     </Overlay>)
   }
