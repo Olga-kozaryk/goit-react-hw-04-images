@@ -90,7 +90,6 @@ export const App =() => {
         }
 
         {loading && <Loader/>}
-
         {error && 
         <p style={{ textAlign: 'center' }}>
           Something went wrong: {error.message}</p>
